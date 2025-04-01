@@ -1,54 +1,167 @@
-<c:FragmentDefinition 
-    xmlns="sap.m"
+<c:FragmentDefinition
+    xmlns="sap.ui.table"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:u="sap.ui.unified"
     xmlns:c="sap.ui.core"
+    xmlns:m="sap.m"
+    height="100%"
 >
-// Fragment no se le asigna controlador, hereda el controlador de la vista donde se instancia.
-
-	<Table id="idProductsTable"
-        inset="false"
+    // Fragment no se le asigna controlador, hereda el controlador de la vista
+    donde se instancia.
+    <Table
+        id="id_SuppliersTable"
         alternateRowColors="true"
-        items="{
-          path: 'ProductCollection>/',
-          sorter: {
-            path: 'Name'
-          }
-    }">
+        selectionMode="Single"
+        selectionBehavior="Row"
+        rows="{/Suppliers}"
+        sort="sortDeliveryDate"
+        ariaLabelledBy="title"
+    >
+        <extension>
+            <m:OverflowToolbar
+                id="extension-01"
+                style="Clear"
+            >
+                <m:Title
+                    id="title"
+                    text="{i18n>extensionName}"
+                />
+                <m:ToolbarSpacer id="toolbar-01" />
+                <m:Button
+                    id="btn-id-01"
+                    icon="sap-icon://sorting-ranking"
+                    tooltip="Sort ascending across Categories and Name"
+                    press="sortCategoriesAndName"
+                />
+                <m:Button
+                    id="btn-id-02"
+                    icon="sap-icon://sort"
+                    tooltip="Sort Categories in addition to current sorting"
+                    press="sortCategories"
+                />
+                <m:Button
+                    id="btn-id-03"
+                    icon="sap-icon://decline"
+                    tooltip="Clear all sortings"
+                    press="clearAllSortings"
+                />
+            </m:OverflowToolbar>
+        </extension>
         <columns>
-          <Column id="col_Id01"
-            width="12em">
-            <Text id="text_ID01" text="{i18n>Product}" />
-          </Column>
-          <Column id="col_Id02"
-            width="12em">
-            <Text id="text_ID02" text="{i18n>UnitPrice}" />
-          </Column>
-          <Column id="col_Id03"
-            width="12em">
-            <Text id="text_ID03" text="{i18n>UnitsInStock}" />
-          </Column>
-          <Column id="col_Id04"
-            width="12em">
-            <Text id="text_ID04" text="{i18n>QuantityPerUnit}" />
-          </Column>
-        </columns>
-        <items>
-          <ColumnListItem id="ID_05" vAlign="Middle">
-            <cells>
-              <ObjectIdentifier id="ID_06"
-                title="{ProductCollection>ProductID}"
-                text="{ProductCollection>ProductName}"/>
-              <ObjectNumber id="ID_07"
-                number="{
-                  parts:[{path:'ProductCollection>UnitPrice'},{path:''}],
-                  type: 'sap.ui.model.type.Currency',
-                  formatOptions: {showMeasure: true}
-                }"
-                unit="USD" />
-              <Text id="ID_08" text="{ProductCollection>UnitsInStock}" />
-              <Text id="ID_09" text="{ProductCollection>QuantityPerUnit}"/>
-            </cells>
-          </ColumnListItem>
-        </items>
-      </Table>
+            <Column
+                id="column-id-01"
+                width="6rem"
+                sortProperty="SupplierID"
+            >
+                <m:Label
+                    id="label-id-01"
+                    text="{i18n>column_ID}"
+                />
+                <template>
+                    <m:Text
+                        id="txt-id-01"
+                        text="{SupplierID}"
+                        wrapping="false"
+                    />
+                </template>
+            </Column>
+            <Column
+                id="companyName"
+                sortProperty="CompanyName"
+            >
+                <m:Label
+                    id="label-id-02"
+                    text="{i18n>column_CompanyName}"
+                />
+                <template>
+                    <m:Text
+                        id="txt-id-02"
+                        text="{CompanyName}"
+                        wrapping="false"
+                    />
+                </template>
+            </Column>
+            <Column
+                id="countryName"
+                sortProperty="Country"
+            >
+                <m:Label
+                    id="label-id-03"
+                    text="{i18n>column_CountryName}"
+                />
+                <template>
+                    <m:Text
+                        id="txt-id-03"
+                        text="{Country}"
+                        wrapping="false"
+                    />
+                </template>
+            </Column>
+            <Column
+                id="cityName"
+                sortProperty="City"
+            >
+                <m:Label
+                    id="label-id-04"
+                    text="{i18n>column_CityName}"
+                />
+                <template>
+                    <m:Text
+                        id="txt-id-04"
+                        text="{City}"
+                        wrapping="false"
+                    />
+                </template>
+            </Column>
 
+            <Column
+                id="contactName"
+                sortProperty="ContactName"
+            >
+                <m:Label
+                    id="label-id-05"
+                    text="{i18n>column_ContactName}"
+                />
+                <template>
+                    <m:Text
+                        id="txt-id-05"
+                        text="{ContactName}"
+                        wrapping="false"
+                    />
+                </template>
+            </Column>
+            <Column
+                id="contactTitle"
+                sortProperty="ContactTitle"
+            >
+                <m:Label
+                    id="label-id-06"
+                    text="{i18n>column_ContactTitle}"
+                />
+                <template>
+                    <m:Text
+                        id="txt-id-06"
+                        text="{ContactTitle}"
+                        wrapping="false"
+                    />
+                </template>
+            </Column>
+            <Column id="contactPhone">
+                <m:Label
+                    id="label-id-07"
+                    text="{i18n>column_ContactPhone}"
+                />
+                <template>
+                    <m:Text
+                        id="txt-id-07"
+                        text="{Phone}"
+                        wrapping="false"
+                    />
+                </template>
+            </Column>
+        </columns>
+        <footer>
+            <m:OverflowToolbar id="infobar" />
+        </footer>
+    </Table>
 </c:FragmentDefinition>

@@ -1,0 +1,54 @@
+<c:FragmentDefinition 
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+// Fragment no se le asigna controlador, hereda el controlador de la vista donde se instancia.
+
+	<Table id="idProductsTable"
+        inset="false"
+        alternateRowColors="true"
+        items="{
+          path: 'ProductCollection>/',
+          sorter: {
+            path: 'Name'
+          }
+    }">
+        <columns>
+          <Column id="col_Id01"
+            width="12em">
+            <Text id="text_ID01" text="{i18n>Product}" />
+          </Column>
+          <Column id="col_Id02"
+            width="12em">
+            <Text id="text_ID02" text="{i18n>UnitPrice}" />
+          </Column>
+          <Column id="col_Id03"
+            width="12em">
+            <Text id="text_ID03" text="{i18n>UnitsInStock}" />
+          </Column>
+          <Column id="col_Id04"
+            width="12em">
+            <Text id="text_ID04" text="{i18n>QuantityPerUnit}" />
+          </Column>
+        </columns>
+        <items>
+          <ColumnListItem id="ID_05" vAlign="Middle">
+            <cells>
+              <ObjectIdentifier id="ID_06"
+                title="{ProductCollection>ProductID}"
+                text="{ProductCollection>ProductName}"/>
+              <ObjectNumber id="ID_07"
+                number="{
+                  parts:[{path:'ProductCollection>UnitPrice'},{path:''}],
+                  type: 'sap.ui.model.type.Currency',
+                  formatOptions: {showMeasure: true}
+                }"
+                unit="USD" />
+              <Text id="ID_08" text="{ProductCollection>UnitsInStock}" />
+              <Text id="ID_09" text="{ProductCollection>QuantityPerUnit}"/>
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+
+</c:FragmentDefinition>

@@ -16,7 +16,7 @@ sap.ui.define([
         
             // Esperar un pequeño tiempo para asegurar que el modelo esté disponible
             setTimeout(() => {
-                const oModel = this.getView().getModel(); // modelo OData por defecto
+                const oModel = this.getView().getModel(); 
         
                 if (!oModel) {
                     console.warn("⚠️ Modelo OData no disponible aún.");
@@ -41,7 +41,7 @@ sap.ui.define([
         
                         // Asignar modelo a la vista
                         this.getView().setModel(oCountriesModel, "CountriesModel");
-        
+                        
                         console.log("🌍 Países únicos cargados:", oCountriesModel.getData());
                     },
                     error: (oError) => {
@@ -85,7 +85,10 @@ sap.ui.define([
             });
         
             // Filtrar
-            oBinding.filter([new Filter({ filters: aFilters, and: false })])
+            oBinding.filter([new Filter({ filters: aFilters, and: false })]);
+
+            console.log("🌍 countryValue:", this.getOwnerComponent().getModel("SupplierSearchModel").getProperty("/countryValue"));
+
         },
         
 

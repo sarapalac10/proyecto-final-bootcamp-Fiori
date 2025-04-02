@@ -38,12 +38,13 @@
     id="select_Country"
     width="200px"
     selectedKey="{SupplierSearchModel>/countryValue}"
+    change="onCountryChange"
     items="{
         path: 'CountriesModel>/',
         templateShareable: false
     }">
-    <core:Item  key="" text="{i18n>select_label_country}" /> 
-    <core:ListItem key="{CountriesModel>key}" text="{CountriesModel>text}" />
+    <core:Item id="item-core-01" key="" text="{i18n>select_label_country}" enabled="false" /> 
+    <core:ListItem id="listitem-01" key="{CountriesModel>key}" text="{CountriesModel>text}" />
 </Select>
             </VBox>
 

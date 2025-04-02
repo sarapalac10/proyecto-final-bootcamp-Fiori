@@ -24,11 +24,11 @@ sap.ui.define([
             this.getRouter().initialize();
 
             // Inicializar
-            this.setInitModel();
+            this.setModel(new sap.ui.model.json.JSONModel({
+                searchValue: "",
+                countryValue: ""
+            }), "SupplierSearchModel");
+            
         },
-
-        setInitModel: function () {
-            HomeHelper.init(this.getModel());
-        }
     });
 });

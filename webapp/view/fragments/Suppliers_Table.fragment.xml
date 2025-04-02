@@ -21,28 +21,32 @@
             <m:OverflowToolbar
                 id="extension-01"
                 style="Clear"
+                width="100%"
             >
                 <m:Title
                     id="title"
                     text="{i18n>extensionName}"
+                    level="H3" wrapping="false"
                 />
                 <m:ToolbarSpacer id="toolbar-01" />
                 <m:Button
                     id="btn-id-01"
                     icon="sap-icon://sorting-ranking"
-                    tooltip="Sort ascending across Categories and Name"
+                    tooltip="Ordenar por país y nombre"
                     press="sortCategoriesAndName"
                 />
+
                 <m:Button
                     id="btn-id-02"
                     icon="sap-icon://sort"
-                    tooltip="Sort Categories in addition to current sorting"
+                    tooltip="Ordenar por país"
                     press="sortCategories"
                 />
+
                 <m:Button
                     id="btn-id-03"
                     icon="sap-icon://decline"
-                    tooltip="Clear all sortings"
+                    tooltip="Limpiar ordenamientos"
                     press="clearAllSortings"
                 />
             </m:OverflowToolbar>

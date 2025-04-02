@@ -1,0 +1,79 @@
+<!-- namespace sap.m para no usar m con cada componente  -->
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <FlexBox
+        id="flx-bx-id-01"
+        wrap="Wrap"
+        direction="Row"
+        alignItems="Center"
+        justifyContent="End"
+        class="sapUiMediumMarginTop"
+    >
+        <HBox
+            id="hbox-id-01"
+            justifyContent="Center"
+            alignItems="Center"
+            class="sapUiTinyMarginBottom"
+        >
+            <VBox
+                id="vbox-id-01"
+                class="sapUiTinyMarginEnd"
+            >
+                <Label
+                    id="label-text-id-01"
+                    text="{i18n>label_SuppliersSearch}"
+                    labelFor="input_Search"
+                />
+                <Input
+                    id="input_Search"
+                    width="360px"
+                    value="{SupplierSearchModel>/searchValue}"
+                    placeholder="{i18n>placeholder_SupplierSearch}"
+                    submit="onSearchSuppliers"
+                />
+                <Label id="label-text-id-02" text="{i18n>label_SuppliersCountry}" labelFor="select_Country" />
+                    <Select
+    id="select_Country"
+    width="200px"
+    selectedKey="{SupplierSearchModel>/countryValue}"
+    change="onCountryChange"
+    items="{
+        path: 'CountriesModel>/',
+        templateShareable: false
+    }">
+    <core:Item id="item-core-01" key="" text="{i18n>select_label_country}" enabled="false" /> 
+    <core:ListItem id="listitem-01" key="{CountriesModel>key}" text="{CountriesModel>text}" />
+</Select>
+            </VBox>
+
+
+            <VBox
+                id="vbox-id-02"
+                class="sapUiTinyMarginTop"
+            >
+                <HBox id="hbox-id-02">
+                    <Button
+                        id="btn-id-04"
+                        text="{i18n>btn_SuppliersSearch}"
+                        icon="sap-icon://search"
+                        press=".onSearchSuppliers"
+                        width="8rem"
+                        type="Emphasized"
+                        class="sapUiTinyMarginEnd"
+                    />
+
+                    <Button
+                        id="btn-id-05"
+                        text="{i18n>btn_ClearFilters}"
+                        icon="sap-icon://sys-cancel"
+                        press=".onClearFilters"
+                        width="8rem"
+                        type="Transparent"
+                    />
+                </HBox>
+            </VBox>
+        </HBox>
+    </FlexBox>
+</core:FragmentDefinition>

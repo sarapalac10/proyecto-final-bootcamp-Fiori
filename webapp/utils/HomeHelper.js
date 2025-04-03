@@ -40,8 +40,12 @@ sap.ui.define([
                 UnitPrice: "",
                 UnitsInStock: "",
                 CategoryID: "",
-                SupplierID: ""
-            }), "ProductModel")
+                SupplierID: "",
+                ProductNameState: "None",
+                UnitPriceState: "None",
+                UnitsInStockState: "None",
+                CategoryIDState: "None"
+            }), "ProductModel");
         },
 
         createProductModelFromExisting: function (oProduct) {

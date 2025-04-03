@@ -1,0 +1,83 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.f">
+
+    <Dialog
+        id="dlg_ProductForm"
+        title="{i18n>dialog_newProductTitle}"
+        class="sapUiResponsivePadding--header sapUiResponsivePadding--content sapUiResponsivePadding--footer"
+        draggable="true"
+        resizable="true"
+    >
+
+        <content>
+            <VBox id="vbox_ProductFields" class="sapUiSmallMargin" renderType="Bare">
+                
+                <Label id="lbl_ProductName" text="{i18n>label_ProductName}" labelFor="inp_ProductName" required="true"/>
+                <Input
+                    id="inp_ProductName"
+                    value="{ProductModel>/ProductName}"
+                    valueState="{ProductModel>/ProductNameState}"
+                    valueStateText="{i18n>error_required}"
+                    required="true"
+                    placeholder="{i18n>placeholder_ProductName}"
+                    liveChange=".onInputChange" />
+
+                <Label id="lbl_UnitPrice" text="{i18n>label_UnitPrice}" labelFor="inp_UnitPrice" required="true"/>
+                <Input
+                    id="inp_UnitPrice"
+                    type="Number"
+                    value="{ProductModel>/UnitPrice}"
+                    valueState="{ProductModel>/UnitPriceState}"
+                    valueStateText="{i18n>error_required}"
+                    required="true"
+                    placeholder="{i18n>placeholder_UnitPrice}" 
+                    liveChange=".onInputChange" />
+
+                <Label id="lbl_UnitsInStock" text="{i18n>label_UnitsInStock}" labelFor="inp_UnitsInStock" required="true"/>
+                <Input
+                    id="inp_UnitsInStock"
+                    type="Number"
+                    value="{ProductModel>/UnitsInStock}"
+                    valueState="{ProductModel>/UnitsInStockState}"
+                    valueStateText="{i18n>error_required}"
+                    required="true"
+                    placeholder="{i18n>placeholder_UnitsInStock}" 
+                    liveChange=".onInputChange" />
+
+                <Label id="lbl_CategoryID" text="{i18n>label_CategoryID}" labelFor="inp_CategoryID" required="true"/>
+                <Input
+                    id="inp_CategoryID"
+                    type="Number"
+                    value="{ProductModel>/CategoryID}"
+                    valueState="{ProductModel>/CategoryIDState}"
+                    valueStateText="{i18n>error_required}"
+                    required="true"
+                    placeholder="{i18n>placeholder_CategoryID}"
+                    liveChange=".onInputChange" />
+
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button
+                id="btn_SaveProduct"
+                text="{i18n>button_Save}"
+                icon="sap-icon://save"
+                press=".onCreateProduct"
+                type="Emphasized"
+                />
+        </beginButton>
+
+        <endButton>
+            <Button
+                id="btn_CancelProduct"
+                text="{i18n>button_Cancel}"
+                icon="sap-icon://sys-cancel"
+                press=".onCloseDialog"
+                type="Transparent"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

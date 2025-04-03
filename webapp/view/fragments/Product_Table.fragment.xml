@@ -38,7 +38,11 @@
         <cells>
             <Text id="txt_ProductID" text="{SimulatedProductsModel>ProductID}" />
             <Text id="txt_ProductName" text="{SimulatedProductsModel>ProductName}" />
-            <Text id="txt_UnitPrice" text="{SimulatedProductsModel>UnitPrice}" />
+            <ObjectNumber
+                id="obj_UnitPrice"
+                number="{ path: 'SimulatedProductsModel>UnitPrice', formatter: '.formatter.formatCurrency' }"
+                emphasized="true"
+            />
             <ObjectNumber
                 id="obj_UnitsInStock"
                 number="{SimulatedProductsModel>UnitsInStock}"

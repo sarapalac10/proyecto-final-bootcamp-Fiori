@@ -57,7 +57,7 @@ sap.ui.define([
 
             if (!this._pDialog) {
                 this._pDialog = Fragment.load({
-                    name: "com.bootcamp.sapui5.freestyle.view.fragments.ProductFormDialog",
+                    name: "com.bootcamp.sapui5.freestyle.view.fragments.Product_Form",
                     controller: this
                 }).then(oDialog => {
                     oView.addDependent(oDialog);
@@ -66,6 +66,7 @@ sap.ui.define([
             }
 
             const oDialogInstance = await this._pDialog;
+            this._validateProductForm();
             oDialogInstance.open();
         },
 
@@ -73,17 +74,17 @@ sap.ui.define([
             const oProductModel = this.getView().getModel("ProductModel");
             const oProduct = oProductModel.getData();
             let bIsValid = true;
-
+        
             const aFieldsToValidate = [
                 { path: "/ProductName", statePath: "/ProductNameState" },
                 { path: "/UnitPrice", statePath: "/UnitPriceState" },
                 { path: "/UnitsInStock", statePath: "/UnitsInStockState" },
                 { path: "/CategoryID", statePath: "/CategoryIDState" }
             ];
-
+        
             aFieldsToValidate.forEach(field => {
                 const value = oProductModel.getProperty(field.path);
-
+        
                 if (!value) {
                     oProductModel.setProperty(field.statePath, "Error");
                     bIsValid = false;
@@ -91,24 +92,30 @@ sap.ui.define([
                     oProductModel.setProperty(field.statePath, "None");
                 }
             });
-
+        
             if (!bIsValid) {
-                sap.m.MessageToast.show("Please fill all required fields.");
+                sap.m.MessageToast.show("Por favor completa todos los campos.");
                 return;
             }
-
+        
             const oModel = this.getView().getModel("SimulatedProductsModel");
             const aProducts = oModel.getData();
             const isCreating = this.getView().getModel("viewFlags").getProperty("/isCreating");
-
+        
             if (isCreating) {
+                const iNextID = aProducts.length > 0
+                    ? Math.max(...aProducts.map(p => p.ProductID || 0)) + 1
+                    : 1;
+        
+                oProduct.ProductID = iNextID;
+        
                 aProducts.push(oProduct);
                 oModel.refresh();
             }
-
+        
             const oDialog = await this._pDialog;
             oDialog.close();
-        },
+        },    
 
         onDeleteProduct: function (oEvent) {
             const iIndex = this._getProductIndexFromEvent(oEvent);
@@ -149,13 +156,34 @@ sap.ui.define([
         onNavBack: function () {
             const oHistory = sap.ui.core.routing.History.getInstance();
             const sPreviousHash = oHistory.getPreviousHash();
-        
+
             if (sPreviousHash) {
                 window.history.go(-1);
             } else {
                 this.getOwnerComponent().getRouter().navTo("RouteHome", {}, true);
             }
+
+        },
+        _validateProductForm: function () {
+            const oProductModel = this.getView().getModel("ProductModel");
+            const oData = oProductModel.getData();
+
+            const bIsValid =
+                oData.ProductName?.trim() &&
+                oData.UnitPrice !== "" &&
+                oData.UnitsInStock !== "" &&
+                oData.CategoryID !== "";
+
+            const oSaveButton = this.getView().byId("btn_SaveProduct");
+            if (oSaveButton) {
+                oSaveButton.setEnabled(!!bIsValid);
+            }
+        },
+
+        onInputChange: function () {
+            this._validateProductForm();
         }
-        
+
+
     });
 });

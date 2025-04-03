@@ -35,19 +35,18 @@
                 />
                 <Label id="label-text-id-02" text="{i18n>label_SuppliersCountry}" labelFor="select_Country" />
                     <Select
-    id="select_Country"
-    width="200px"
-    selectedKey="{SupplierSearchModel>/countryValue}"
-    change="onCountryChange"
-    items="{
-        path: 'CountriesModel>/',
-        templateShareable: false
-    }">
-    <core:Item id="item-core-01" key="" text="{i18n>select_label_country}" enabled="false" /> 
-    <core:ListItem id="listitem-01" key="{CountriesModel>key}" text="{CountriesModel>text}" />
-</Select>
+                        id="select_Country"
+                        width="200px"
+                        selectedKey="{SupplierSearchModel>/countryValue}"
+                        change="onCountryChange"
+                        items="{
+                            path: 'CountriesModel>/',
+                            templateShareable: false
+                        }">
+                        <core:Item id="item-core-01" key="" text="{i18n>select_label_country}" enabled="false" /> 
+                        <core:ListItem id="listitem-01" key="{CountriesModel>key}" text="{CountriesModel>text}" />
+                    </Select>
             </VBox>
-
 
             <VBox
                 id="vbox-id-02"

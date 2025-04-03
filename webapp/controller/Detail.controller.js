@@ -14,6 +14,8 @@ sap.ui.define([
         onInit() {
             const oRouter = sap.ui.core.UIComponent.getRouterFor(this);
             oRouter.getRoute("detail").attachPatternMatched(this._onObjectMatched, this);
+
+            this._i18n = this.getOwnerComponent().getModel("i18n").getResourceBundle();
         },
 
         _onObjectMatched: function (oEvent) {
@@ -27,33 +29,49 @@ sap.ui.define([
             });
 
             const oModel = this.getView().getModel();
-            oModel.read(`/Suppliers(${sSupplierID})/Products`, {
-                success: (oData) => {
-                    HomeHelper.setSimulatedProductsModel(this.getOwnerComponent(), oData.results);
-                },
-                error: () => {
-                    HomeHelper.setSimulatedProductsModel(this.getOwnerComponent(), []);
-                }
-            });
+            const sKey = `SavedProducts_${sSupplierID}`;
+            const sSaved = localStorage.getItem(sKey);
+
+            if (sSaved) {
+                const aSavedProducts = JSON.parse(sSaved);
+                HomeHelper.setSimulatedProductsModel(this.getOwnerComponent(), aSavedProducts);
+            } else {
+                oModel.read(`/Suppliers(${sSupplierID})/Products`, {
+                    success: (oData) => {
+                        HomeHelper.setSimulatedProductsModel(this.getOwnerComponent(), oData.results);
+                    },
+                    error: () => {
+                        HomeHelper.setSimulatedProductsModel(this.getOwnerComponent(), []);
+                    }
+                });
+            }
         },
 
         onAddProduct: function () {
             HomeHelper.setEmptyProductModel(this.getOwnerComponent());
-            this._openProductDialog(true);
+
+            const sTitle = this._i18n.getText("dialogProductTitleNuevo");
+            this.getView().setModel(new JSONModel({ isCreating: true, dialogTitle: sTitle }), "viewFlags");
+
+            this._openProductDialog();
         },
 
         onProductPress: function (oEvent) {
             const oItem = oEvent.getParameter("listItem");
             const oContext = oItem.getBindingContext("SimulatedProductsModel");
             const oProduct = oContext.getObject();
+
             const oProductModel = HomeHelper.createProductModelFromExisting(oProduct);
             this.getOwnerComponent().setModel(oProductModel, "ProductModel");
-            this._openProductDialog(false);
+
+            const sTitle = this._i18n.getText("dialogProductTitleEditar");
+            this.getView().setModel(new JSONModel({ isCreating: false, dialogTitle: sTitle }), "viewFlags");
+
+            this._openProductDialog();
         },
 
-        _openProductDialog: async function (isCreating) {
+        _openProductDialog: async function () {
             const oView = this.getView();
-            oView.setModel(new JSONModel({ isCreating }), "viewFlags");
 
             if (!this._pDialog) {
                 this._pDialog = Fragment.load({
@@ -74,81 +92,81 @@ sap.ui.define([
             const oProductModel = this.getView().getModel("ProductModel");
             const oProduct = oProductModel.getData();
             let bIsValid = true;
-        
+
             const aFieldsToValidate = [
                 { path: "/ProductName", statePath: "/ProductNameState" },
                 { path: "/UnitPrice", statePath: "/UnitPriceState" },
                 { path: "/UnitsInStock", statePath: "/UnitsInStockState" },
                 { path: "/CategoryID", statePath: "/CategoryIDState" }
             ];
-        
+
             aFieldsToValidate.forEach(field => {
                 const value = oProductModel.getProperty(field.path);
-        
-                if (!value) {
-                    oProductModel.setProperty(field.statePath, "Error");
-                    bIsValid = false;
-                } else {
-                    oProductModel.setProperty(field.statePath, "None");
-                }
+                oProductModel.setProperty(field.statePath, value ? "None" : "Error");
+                if (!value) bIsValid = false;
             });
-        
+
             if (!bIsValid) {
-                sap.m.MessageToast.show("Por favor completa todos los campos.");
+                MessageBox.error(this._i18n.getText("msgFillAllFields"));
                 return;
             }
-        
+
             const oModel = this.getView().getModel("SimulatedProductsModel");
             const aProducts = oModel.getData();
             const isCreating = this.getView().getModel("viewFlags").getProperty("/isCreating");
-        
+
             if (isCreating) {
                 const iNextID = aProducts.length > 0
                     ? Math.max(...aProducts.map(p => p.ProductID || 0)) + 1
                     : 1;
-        
+
                 oProduct.ProductID = iNextID;
-        
                 aProducts.push(oProduct);
-                oModel.refresh();
+
+                sap.m.MessageToast.show(this._i18n.getText("msgProductSaved"));
             }
-        
+
+            oModel.refresh();
+
+            // Guardar local
+            const sSupplierID = this.getView().getBindingContext()?.getProperty("SupplierID");
+            if (sSupplierID) {
+                localStorage.setItem(`SavedProducts_${sSupplierID}`, JSON.stringify(aProducts));
+            }
+
             const oDialog = await this._pDialog;
             oDialog.close();
-        },    
+        },
 
         onDeleteProduct: function (oEvent) {
             const iIndex = this._getProductIndexFromEvent(oEvent);
             if (iIndex === null) return;
-            this._confirmAndDeleteProduct(iIndex);
+
+            const oModel = this.getView().getModel("SimulatedProductsModel");
+            const aData = oModel.getData();
+
+            MessageBox.confirm(this._i18n.getText("msgConfirmDelete"), {
+                title: this._i18n.getText("msgTitleDelete"),
+                actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+                onClose: (sAction) => {
+                    if (sAction === MessageBox.Action.OK) {
+                        aData.splice(iIndex, 1);
+                        oModel.refresh();
+                        sap.m.MessageToast.show(this._i18n.getText("msgDeleted"));
+                    }
+                }
+            });
         },
 
         _getProductIndexFromEvent: function (oEvent) {
             const oContext = oEvent.getSource().getBindingContext("SimulatedProductsModel");
             if (!oContext) return null;
             const sPath = oContext.getPath();
-            const iIndex = parseInt(sPath.replace("/", ""), 10);
-            return isNaN(iIndex) ? null : iIndex;
-        },
-
-        _confirmAndDeleteProduct: function (iIndex) {
-            const oModel = this.getView().getModel("SimulatedProductsModel");
-            const aData = oModel.getData();
-
-            MessageBox.confirm("Are you sure you want to delete this product?", {
-                title: "Confirm Deletion",
-                actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-                onClose: function (sAction) {
-                    if (sAction === MessageBox.Action.OK) {
-                        aData.splice(iIndex, 1);
-                        oModel.refresh();
-                        sap.m.MessageToast.show("Product deleted");
-                    }
-                }
-            });
+            return parseInt(sPath.replace("/", ""), 10);
         },
 
         onCloseDialog: async function () {
+            HomeHelper.setEmptyProductModel(this.getOwnerComponent());
             const oDialog = await this._pDialog;
             oDialog.close();
         },
@@ -162,8 +180,8 @@ sap.ui.define([
             } else {
                 this.getOwnerComponent().getRouter().navTo("RouteHome", {}, true);
             }
-
         },
+
         _validateProductForm: function () {
             const oProductModel = this.getView().getModel("ProductModel");
             const oData = oProductModel.getData();
@@ -183,7 +201,5 @@ sap.ui.define([
         onInputChange: function () {
             this._validateProductForm();
         }
-
-
     });
 });

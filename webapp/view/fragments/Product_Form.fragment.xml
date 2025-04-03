@@ -6,7 +6,7 @@
 
     <Dialog
         id="dlg_ProductForm"
-        title="{i18n>dialog_newProductTitle}"
+        title="{= ${viewFlags>/isCreating} ? ${i18n>dialog_newProductTitle} : ${i18n>dialog_editProductTitle} }"
         class="sapUiResponsivePadding--header sapUiResponsivePadding--content sapUiResponsivePadding--footer"
         draggable="true"
         resizable="true"
@@ -66,9 +66,9 @@
                 id="btn_SaveProduct"
                 text="{i18n>button_Save}"
                 icon="sap-icon://save"
+                type="Accept"
                 press=".onCreateProduct"
-                type="Emphasized"
-                />
+            />
         </beginButton>
 
         <endButton>

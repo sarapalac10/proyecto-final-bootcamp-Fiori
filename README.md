@@ -1,5 +1,45 @@
+🚀 Proyecto Final Bootcamp Fiori
+
+Aplicación desarrollada en SAPUI5 estilo Freestyle que permite consultar y simular la gestión de proveedores y productos a partir del servicio Northwind OData. Se simulan funcionalidades de creación local, validación de formularios y navegación entre vistas.
+
+🔍 Vista General del Proyecto
+
+Este diagrama interactivo muestra la arquitectura del proyecto, los componentes clave y sus relaciones:
 
 ![diagram](https://github.com/user-attachments/assets/0b4a3f10-e4b8-4059-9c64-cdba16fc9328)
+
+
+## 📁 Estructura del Proyecto
+
+```plaintext
+webapp/
+├── controller/
+│   ├── App.controller.js
+│   ├── Home.controller.js
+│   └── Detail.controller.js
+├── view/
+│   ├── App.view.xml
+│   ├── Home.view.xml
+│   ├── Detail.view.xml
+│   └── fragments/
+│       ├── Suppliers_Table.fragment.xml
+│       ├── Suppliers_Filters.fragment.xml
+│       ├── Product_Table.fragment.xml
+│       └── Product_Form.fragment.xml
+├── model/
+│   ├── models.js
+│   └── formatter.js
+├── utils/
+│   ├── HomeHelper.js
+│   └── HomeService.js
+├── i18n/
+│   ├── i18n.properties
+├── localService/
+│   └── mainService/metadata.xml
+├── Component.js
+├── index.html
+└── manifest.json
+
 
 
 ## Application Details
@@ -20,6 +60,16 @@
 |**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
+
+
+🚀 Funcionalidades
+✅ Buscar proveedores por ID o nombre
+✅ Filtrar por país
+✅ Visualizar detalles del proveedor
+✅ Simular productos asociados
+✅ Agregar, editar y eliminar productos (simulado)
+✅ Validación de campos obligatorios
+✅ Mensajes interactivos e internacionales (i18n)
 
 ## freestyle
 
@@ -44,4 +94,10 @@ An SAP Fiori application.
 1. Active NodeJS LTS (Long Term Support) version and associated supported NPM version.  (See https://nodejs.org)
 
 
-# proyecto-final-bootcamp-Fiori
+✨ Creado por:
+
+Sara Palacio Zapata
+
+Frontend Developer apasionada por crear interfaces funcionales y limpias usando SAPUI5.
+
+

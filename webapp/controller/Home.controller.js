@@ -42,15 +42,13 @@ sap.ui.define([
                         // Asignar modelo a la vista
                         this.getView().setModel(oCountriesModel, "CountriesModel");
                         
-                        console.log("🌍 Países únicos cargados:", oCountriesModel.getData());
                     },
                     error: (oError) => {
                         console.error("❌ Error al leer /Suppliers:", oError);
                     }
                 });
             }, 500);
-        }
-,        
+        },        
 
         onSearchSuppliers: function () {
             const oTable = this.getView().byId("id_SuppliersTable");
@@ -145,6 +143,26 @@ sap.ui.define([
 
         onPress: function () {
             console.log("Botón de búsqueda presionado :D ");
+        },
+
+        onRowSelected: function (oEvent) {
+            const oTable = this.byId("id_SuppliersTable");
+            const iIndex = oEvent.getParameter("rowIndex");
+            
+            oTable.setSelectedIndex(iIndex);
+
+            const oContext = oTable.getContextByIndex(iIndex);
+            if (oContext) {
+                const oSupplier = oContext.getObject();
+        
+                this.getOwnerComponent().getRouter().navTo("detail", {
+                    SupplierID: oSupplier.SupplierID
+                });
+            }
         }
+        
+        
+        
+
     });
 });

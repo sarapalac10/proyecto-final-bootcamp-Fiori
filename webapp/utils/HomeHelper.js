@@ -13,9 +13,9 @@ sap.ui.define([
             this._oNorthwindModel = oNorthwindModel;
         },
 
-        getDataProducts: async function() {
+        getDataSuppliers: async function() {
             let oFilter = [];
-            return HomeService.readProducts(this._oNorthwindModel, oFilter);
+            return HomeService.readSuppliers(this._oNorthwindModel, []);
         },
 
         // mapear los datos 
@@ -32,6 +32,26 @@ sap.ui.define([
 
             oListModel.setData(aData);
             
+        },
+
+        setEmptyProductModel: function (oComponent) {
+            oComponent.setModel(new JSONModel({
+                ProductName: "",
+                UnitPrice: "",
+                UnitsInStock: "",
+                CategoryID: "",
+                SupplierID: ""
+            }), "ProductModel")
+        },
+
+        createProductModelFromExisting: function (oProduct) {
+            return new JSONModel(Object.assign({}, oProduct));
+        },
+
+        setSimulatedProductsModel: function (oComponent, aProducts) {
+            const oModel = new JSONModel(aProducts || []);
+            oComponent.setModel(oModel, "SimulatedProductsModel");
         }
+
     };
 });

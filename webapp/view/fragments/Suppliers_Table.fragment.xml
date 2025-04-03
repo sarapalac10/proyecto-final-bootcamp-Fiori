@@ -16,6 +16,7 @@
         rows="{/Suppliers}"
         sort="sortDeliveryDate"
         ariaLabelledBy="title"
+        rowSelectionChange=".onRowSelected"
     >
         <extension>
             <m:OverflowToolbar

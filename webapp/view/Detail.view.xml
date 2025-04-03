@@ -1,0 +1,76 @@
+<mvc:View controllerName="com.bootcamp.sapui5.freestyle.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:lf="sap.ui.layout.form"
+    xmlns:c="sap.ui.core">
+
+    <Page
+        id="detailPage"
+        class="sapUiContentPadding"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+    >
+
+        <!-- Cabecera visual tipo Fiori -->
+        <ObjectHeader
+            id="header_Id"
+            title="{CompanyName}"
+            intro="{i18n>detailTitle}"
+            number="{SupplierID}"
+            numberUnit="ID"
+            icon="sap-icon://business-card"
+            responsive="true"
+        />
+
+        <!-- Paneles lado a lado -->
+        <HBox id="hbox_panels" class="sapUiMediumMarginTop" justifyContent="Start" alignItems="Stretch" renderType="Bare">
+            <!-- Información del proveedor -->
+            <Panel id="panel_supplier" headerText="{i18n>companyFormTitle}" class="sapUiNoContentPadding" width="48%">
+                <lf:SimpleForm id="form_supplier" editable="false" layout="ResponsiveGridLayout">
+                    <lf:content>
+                        <Label id="label_companyName" text="{i18n>label_CompanyName}" />
+                        <Text id="text_companyName" text="{CompanyName}" />
+
+                        <Label id="label_address" text="{i18n>label_Address}" />
+                        <Text id="text_address" text="{Address}" />
+
+                        <Label id="label_city" text="{i18n>label_City}" />
+                        <Text id="text_city" text="{City}" />
+
+                        <Label id="label_country" text="{i18n>label_Country}" />
+                        <Text id="text_country" text="{Country}" />
+                    </lf:content>
+                </lf:SimpleForm>
+            </Panel>
+
+            <!-- Información de contacto -->
+            <Panel id="panel_contact" headerText="{i18n>contactFormTitle}" class="sapUiNoContentPadding sapUiTinyMarginBegin" width="48%">
+                <lf:SimpleForm id="form_contact" editable="false" layout="ResponsiveGridLayout">
+                    <lf:content>
+                        <Label id="label_contactName" text="{i18n>label_ContactName}" />
+                        <Text id="text_contactName" text="{ContactName}" />
+
+                        <Label id="label_contactTitle" text="{i18n>label_ContactTitle}" />
+                        <Text id="text_contactTitle" text="{ContactTitle}" />
+
+                        <Label id="label_phone" text="{i18n>label_Phone}" />
+                        <Text id="text_phone" text="{Phone}" />
+                    </lf:content>
+                </lf:SimpleForm>
+            </Panel>
+        </HBox>
+
+        <!-- Tabla de productos relacionada -->
+        <HBox id="hbox_productsHeader" class="sapUiMediumMarginTop" justifyContent="SpaceBetween" alignItems="Center">
+            <Title id="title_products" text="{i18n>title_Products}" />
+            <Button id="btn_addProduct" text="{i18n>addProduct}" icon="sap-icon://add" press=".onAddProduct" />
+        </HBox>
+
+        <c:Fragment
+            fragmentName="com.bootcamp.sapui5.freestyle.view.fragments.Product_Table"
+            type="XML"
+        />
+
+    </Page>
+</mvc:View>

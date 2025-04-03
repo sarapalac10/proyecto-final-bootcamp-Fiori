@@ -1,0 +1,64 @@
+<c:FragmentDefinition
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:c="sap.ui.core"
+>
+    <Table
+        id="id_ProductsTable"
+        items="{SimulatedProductsModel>/}"
+        mode="SingleSelectMaster"
+        growing="true"
+        growingThreshold="10"
+        itemPress=".onProductPress"
+    >
+        <columns>
+            <Column id="column_id_01">
+                <Text id="txt_id_01" text="{i18n>productid}" />
+            </Column>
+            <Column id="column_id_02">
+                <Text id="txt_id_02" text="{i18n>productName}" />
+            </Column>
+            <Column id="column_id_03">
+                <Text id="txt_id_03" text="{i18n>unitPrice}" />
+            </Column>
+            <Column id="column_id_04">
+                <Text id="txt_id_04" text="{i18n>unitsInStock}" />
+            </Column>
+            <Column id="column_id_05">
+                <Text id="txt_id_05" text="{i18n>category}" />
+            </Column>
+            <Column width="4rem" id="column_id_06">
+                <Text id="txt_id_06" />
+            </Column>
+        </columns>
+
+        <items>
+    <ColumnListItem id="cli_ProductItem" type="Active">
+        <cells>
+            <Text id="txt_ProductID" text="{SimulatedProductsModel>ProductID}" />
+            <Text id="txt_ProductName" text="{SimulatedProductsModel>ProductName}" />
+            <Text id="txt_UnitPrice" text="{SimulatedProductsModel>UnitPrice}" />
+            <ObjectNumber
+                id="obj_UnitsInStock"
+                number="{SimulatedProductsModel>UnitsInStock}"
+                emphasized="false"
+                state="{
+                    path: 'SimulatedProductsModel>UnitsInStock',
+                    formatter: '.formatter.getStateStock'
+                }"
+            />
+            <Text id="txt_CategoryID" text="{SimulatedProductsModel>CategoryID}" />
+            <Button
+                id="btn_DeleteProduct"
+                icon="sap-icon://delete"
+                type="Transparent"
+                tooltip="{i18n>deleteProduct}"
+                press=".onDeleteProduct"
+            />
+        </cells>
+    </ColumnListItem>
+</items>
+
+    </Table>
+</c:FragmentDefinition>
